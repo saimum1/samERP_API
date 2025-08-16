@@ -1,10 +1,12 @@
 from pydantic import BaseModel
+from typing import Optional
+from datetime import datetime
 
 class OperatorBase(BaseModel):
     name: str
     code: str
-    logo: str | None = None
-    status: str = "not_available"
+    logo: Optional[str] = None
+    status: str
 
 class OperatorCreate(OperatorBase):
     pass
@@ -14,6 +16,8 @@ class OperatorUpdate(OperatorBase):
 
 class OperatorOut(OperatorBase):
     id: int
+    created_at: datetime
+    updated_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
