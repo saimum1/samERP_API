@@ -11,3 +11,4 @@ jinja2
 pyjwt
 python-multipart
 motor
+gunicorn
