@@ -15,9 +15,8 @@ class OperatorUpdate(OperatorBase):
     pass
 
 class OperatorOut(OperatorBase):
-    id: int
-    created_at: datetime
-    updated_at: datetime
-
-    class Config:
-        from_attributes = True
+    id: str 
+    model_config = {    
+    "from_attributes": True,
+    "populate_by_name": True  
+    }

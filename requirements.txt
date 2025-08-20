@@ -10,3 +10,4 @@ pydantic-settings
 jinja2
 pyjwt
 python-multipart
+motor
