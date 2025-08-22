@@ -12,3 +12,4 @@ pyjwt
 python-multipart
 motor
 gunicorn
+google-generativeai

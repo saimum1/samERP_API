@@ -51,8 +51,8 @@
 
 from fastapi import APIRouter, Depends, HTTPException
 from app.db.database import get_db
-from app.schemas import productSchema
-from app.methods import productMethod
+from app.schemas import generativeAISchema, productSchema
+from app.methods import productMethod, generativeAIMethod
 
 productListController = APIRouter()
 
@@ -84,3 +84,12 @@ async def update_product(product_id: str, product: productSchema.ProductUpdate, 
 @productListController.delete("/{product_id}")
 async def delete_product(product_id: str, db = Depends(get_db)):
     return await productMethod.delete_product_by_id(db, product_id)
+
+
+
+
+
+@productListController.post("/generative",)
+async def generative(data:generativeAISchema.ArticleRequest):
+    return await generativeAIMethod.create_generative_article(data)
+
