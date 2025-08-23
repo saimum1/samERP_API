@@ -93,3 +93,9 @@ async def delete_product(product_id: str, db = Depends(get_db)):
 async def generative(data:generativeAISchema.ArticleRequest):
     return await generativeAIMethod.create_generative_article(data)
 
+
+@productListController.post("/leadanalysis")
+async def analyze_client(request: generativeAISchema.LeadAnalysisRequest):
+    print("data for lead analysis", request)
+    return await generativeAIMethod.analyze_leads(request)
+    

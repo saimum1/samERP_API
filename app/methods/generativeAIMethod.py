@@ -30,3 +30,21 @@ async def create_generative_article(request: generativeAISchema.ArticleRequest):
         raise HTTPException(status_code=500, detail=str(re))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")
+    
+
+async def analyze_leads(request: generativeAISchema.LeadAnalysisRequest):
+    print("data for lead analysis", request)
+    try:
+        gemini_service = GeminiService()
+        if not request.chats:
+            raise HTTPException(status_code=400, detail="'chats' field must be provided")
+
+        result = gemini_service.generate_lead_analysis(request.chats)
+        return {"generated_content": result}
+
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+    except RuntimeError as re:
+        raise HTTPException(status_code=500, detail=str(re))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")
