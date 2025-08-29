@@ -33,12 +33,18 @@ from datetime import datetime
 
 class ProductBase(BaseModel):
     name: str
+    price: int = 0
     code: Optional[str] = None
+    imageink1: Optional[str] = None
+    imageink2: Optional[str] = None
+    imageink3: Optional[str] = None
+    imageink4: Optional[str] = None
     quantity: int = 0
     lot_no: Optional[str] = None
     logo: Optional[str] = None
     status: Optional[str] = None
     description: Optional[str] = None
+    category_id : str
     operator_id: Optional[str] = None  # store Operator._id as string
 
 class ProductCreate(ProductBase):
@@ -46,6 +52,11 @@ class ProductCreate(ProductBase):
 
 class ProductUpdate(BaseModel):
     name: Optional[str] = None
+    price: Optional[int] = 0
+    imageink1: Optional[str] = None
+    imageink2: Optional[str] = None
+    imageink3: Optional[str] = None
+    imageink4: Optional[str] = None
     code: Optional[str] = None
     quantity: Optional[int] = None
     lot_no: Optional[str] = None
@@ -54,8 +65,11 @@ class ProductUpdate(BaseModel):
     description: Optional[str] = None
     operator_id: Optional[str] = None
 
+
+
 class ProductOut(ProductBase):
     id: str = Field(..., alias="_id")
+    category_id: str = Field(..., alias="categoryId")
     created_at: datetime
     updated_at: datetime
 
@@ -64,3 +78,5 @@ class ProductOut(ProductBase):
         json_encoders = {
             datetime: lambda v: v.isoformat()
         }
+
+

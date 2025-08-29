@@ -63,13 +63,19 @@ async def create_product(product: productSchema.ProductCreate, db = Depends(get_
         raise HTTPException(status_code=422, detail="Status must be 'available' or 'not_available'")
     return await productMethod.create_product(db, product)
 
-
+ 
 @productListController.get("/", response_model=list[productSchema.ProductOut])
 async def list_products(db = Depends(get_db)):
     return await productMethod.get_products(db)
 
 
-@productListController.get("/{product_id}", response_model=productSchema.ProductOut)
+
+@productListController.get("/clientproducts", response_model=productSchema.ProductResponse)
+async def get_products_route(page: int = 1, perPage: int = 8, db=Depends(get_db)):
+    return await productMethod.get_products_client(db, page, perPage)
+
+
+@productListController.get("/getone/{product_id}", response_model=productSchema.ProductResponse)
 async def get_product(product_id: str, db = Depends(get_db)):
     return await productMethod.get_product_by_id(db, product_id)
 
