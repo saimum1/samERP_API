@@ -53,6 +53,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from app.db.database import get_db
 from app.schemas import generativeAISchema, productSchema
 from app.methods import productMethod, generativeAIMethod
+from app.models.orderModel import OrderCreate,OrderResponse
+
 
 productListController = APIRouter()
 
@@ -80,7 +82,7 @@ async def get_product(product_id: str, db = Depends(get_db)):
     return await productMethod.get_product_by_id(db, product_id)
 
 
-@productListController.put("/{product_id}", response_model=productSchema.ProductOut)
+@productListController.put("/{product_id}", response_model=productSchema.ProductUpdate)
 async def update_product(product_id: str, product: productSchema.ProductUpdate, db = Depends(get_db)):
     if product.status and product.status not in ["available", "not_available"]:
         raise HTTPException(status_code=422, detail="Status must be 'available' or 'not_available'")
@@ -104,4 +106,31 @@ async def generative(data:generativeAISchema.ArticleRequest):
 async def analyze_client(request: generativeAISchema.LeadAnalysisRequest):
     print("data for lead analysis", request)
     return await generativeAIMethod.analyze_leads(request)
+
+
+
+
+@productListController.post("/order", response_model=OrderResponse)
+async def createorder(product: OrderCreate, db = Depends(get_db)):
+        try:
+            return await productMethod.create_order(db, product)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Error creating product: {str(e)}")
+
+      
+@productListController.get("/order", response_model=list[OrderResponse])
+async def getorder(db = Depends(get_db)):
+       return await productMethod.get_order(db)
+
+
+@productListController.patch("/order/{order_id}")
+async def updateStatus(order_id: str,status: str,   db = Depends(get_db)):
+       return await productMethod.update_order_status( order_id,status,db)
+
     
+
+@productListController.get("/order/bylead/{leadmail}", response_model=list[OrderResponse])
+async def getorder(leadmail:str , db = Depends(get_db)):
+       print("leadmail",leadmail)
+       return await productMethod.get_order_bylead(leadmail ,db)
+   

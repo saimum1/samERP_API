@@ -48,6 +48,9 @@ class OperatorUpdate(BaseModel):
     logo: Optional[str] = None
     status: Optional[OperatorStatus] = None
 
+class OperatorResponse(OperatorBase):
+    id: Optional[str] = None
+
 
 class OperatorOut(OperatorBase):
     id: str = Field(..., alias="_id") 

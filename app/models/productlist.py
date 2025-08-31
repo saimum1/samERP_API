@@ -30,6 +30,7 @@
 from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
+from uuid import uuid4,UUID
 
 class ProductBase(BaseModel):
     name: str
@@ -45,12 +46,13 @@ class ProductBase(BaseModel):
     status: Optional[str] = None
     description: Optional[str] = None
     category_id : str
-    operator_id: Optional[str] = None  # store Operator._id as string
+    operator_id: Optional[str] = None 
 
 class ProductCreate(ProductBase):
     pass
 
 class ProductUpdate(BaseModel):
+  
     name: Optional[str] = None
     price: Optional[int] = 0
     imageink1: Optional[str] = None
@@ -79,4 +81,14 @@ class ProductOut(ProductBase):
             datetime: lambda v: v.isoformat()
         }
 
+class ProductResponse(ProductBase):
+    id: Optional[str] = None
 
+
+class ordercreate(BaseModel):
+    id:UUID=str(uuid4())
+    name: Optional[str] = None
+    price: Optional[int] = 0
+    productid: Optional[str] = None
+    image: Optional[str] = None
+    quantity: Optional[int] = 0

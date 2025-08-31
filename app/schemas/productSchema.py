@@ -71,6 +71,7 @@ class ProductCreate(ProductBase):
     pass
 
 class ProductUpdate(ProductBase):
+    id:str = Field(..., alias="id")
     pass
 
 class ProductOut(ProductBase):
@@ -78,7 +79,7 @@ class ProductOut(ProductBase):
     operator: Optional[OperatorOut] = None
     class Config:
         from_attributes = True
-
+ 
 class ProductResponse(BaseModel):  # Remove inheritance from ProductBase
     products: List[ProductOut]
     totalPages: int
